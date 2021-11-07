@@ -2,6 +2,7 @@
 // catController
 
 const catModel = require('../models/catModel');
+const {updateCat} = require('../models/catModel');
 const {deleteCat} = require('../models/catModel');
 const {insertCat} = require('../models/catModel');
 const { getCat } = require('../models/catModel');
@@ -26,6 +27,12 @@ const cat_post = async (req, res) => {
   res.send(id);
 }
 
+const cat_update = async (req, res) => {
+  const updated = await updateCat(req.body);
+  res.json({message: `Cat updated: ${updated}`});
+};
+
+
 const cat_delete = async (req, res) => {
   await deleteCat(req.params.catId);
   res.send('cat deleted');
@@ -35,5 +42,6 @@ module.exports = {
   cat_list_get,
   cat_get,
   cat_post,
-  cat_delete
+  cat_delete,
+  cat_update
 }

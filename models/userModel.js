@@ -18,7 +18,6 @@ const getUser = async (userId) => {
 
 const getAllUsers = async () => {
   try {
-    // TODO: do the LEFT (or INNER) JOIN to get owner's name as ownername (from wop_user table).
     const [rows] = await promisePool.query('SELECT * FROM wop_user');
     return rows;
   } catch (e) {
@@ -27,9 +26,22 @@ const getAllUsers = async () => {
 };
 
 
+const insertUser = async (user) => {
+  try {
+    const [rows] = await promisePool.execute('INSERT INTO wop_user (name, email, password) VALUES (?,?,?)',
+        [user.name, user.email, user.password]);
+    console.log("Model insert user", rows);
+    return rows.insertId;
+  } catch (e) {
+    console.error("Model insert user", e.message);
+  }
+};
+
+
 
 
 module.exports = {
   getUser,
-  getAllUsers
+  getAllUsers,
+  insertUser
 };
