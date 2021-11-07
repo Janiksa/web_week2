@@ -1,21 +1,25 @@
 'use strict'
-
+const userModel = require("../models/userModel")
+const {insertUser} = require('../models/userModel');
 const { getUser } = require('../models/userModel');
 const { users } = require('../models/userModel');
 
 
-const user_get = (req, res) => {
-  const user = getUser(req.params.userId);
+const user_get = async (req, res) => {
+  const user = await getUser(req.params.userId);
   res.json({user});
 }
 
-const user_list_get = (req, res) => {
+const user_list_get = async (req, res) => {
+  const users = await userModel.getAllUsers();
   res.json(users);
 }
 
-const user_post = (req, res) => {
+const user_post = async (req, res) => {
   console.log("Add user data", req.body);
-  res.send("From this endpoint you can add users");
+  const user = req.body;
+  const id = await insertUser(user);
+  res.send(id);
 }
 
 module.exports = {

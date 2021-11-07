@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+require('dotenv').config()
 const catRoute = require("./routes/catRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const app = express();
