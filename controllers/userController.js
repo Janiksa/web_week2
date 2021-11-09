@@ -1,5 +1,10 @@
 'use strict'
+
+
+const { body, validationResult } = require('express-validator');
+
 const userModel = require("../models/userModel")
+const {httpError} = require("../utils/errors");
 const {insertUser} = require('../models/userModel');
 const { getUser } = require('../models/userModel');
 const { users } = require('../models/userModel');
@@ -15,11 +20,17 @@ const user_list_get = async (req, res) => {
   res.json(users);
 }
 
-const user_post = async (req, res) => {
-  console.log("Add user data", req.body);
-  const user = req.body;
-  const id = await insertUser(user);
-  res.send(id);
+const user_post = async (req, res, next) => {
+  const user = [req.body.name, req.body.email, req.body.passwd];
+  const add = await insertUser(user);
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    console.error("user_post validation", errors.array());
+    const err = httpError("data not valid", 400);
+    next(err);
+    return;
+  }
+  res.json(add);
 }
 
 module.exports = {
