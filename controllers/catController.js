@@ -42,6 +42,7 @@ const cat_post = async (req, res, next) => {
         }
         const cat = req.body;
         cat.filename = req.file.filename;
+        cat.owner = req.user.user_id;
         const id = await insertCat(cat);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -58,12 +59,16 @@ const cat_post = async (req, res, next) => {
 
 const cat_update = async (req, res) => {
     const updated = await updateCat(req.body);
+    const cat = req.body;
+    cat.owner = req.user.user_id;
     res.json({message: `Cat updated: ${updated}`});
 };
 
 
 const cat_delete = async (req, res) => {
     await deleteCat(req.params.catId);
+    const cat = req.body;
+    cat.owner = req.user.user_id;
     res.send('cat deleted');
 }
 
