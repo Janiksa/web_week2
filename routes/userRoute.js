@@ -8,6 +8,8 @@ const {user_post} = require('../controllers/userController');
 const {user_get} = require('../controllers/userController');
 const router = express.Router();
 const multer = require('multer');
+const {userUpdate} = require("../models/userModel");
+const {userDelete} = require("../models/userModel");
 
 router.route('/')
     .get(user_list_get)
@@ -18,7 +20,12 @@ router.route('/')
         user_post);
 
 router.route('/:id')
-    .get(user_get);
+    .get(user_get)
+    .put( body("name").isLength({min: 3}),
+        body("email").isEmail(),
+        body("passwd").matches("(?=.*[A-Z]).{8,}"),
+        userUpdate)
+    .delete(userDelete);
 module.exports = router;
 
 
