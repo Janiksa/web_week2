@@ -8,8 +8,13 @@ const {user_post} = require('../controllers/userController');
 const {user_get} = require('../controllers/userController');
 const router = express.Router();
 const multer = require('multer');
+const {checkToken} = require('../controllers/userController');
 const {userUpdate} = require("../models/userModel");
 const {userDelete} = require("../models/userModel");
+
+
+router.route('/token')
+    .get(checkToken);
 
 router.route('/')
     .get(user_list_get)

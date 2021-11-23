@@ -57,7 +57,13 @@ const delete_user = async (req, res, next) => {
     await delete_user(req.body, req.user, req.params.id);
 }
 
-
+const checkToken = (req, res, next) => {
+    if (!req.user) {
+        next(new Error('token not valid'));
+    } else {
+        res.json({ user: req.user });
+    }
+};
 
 
 
@@ -67,5 +73,6 @@ module.exports = {
     user_post,
     user_list_get,
     delete_user,
-    update_user
+    update_user,
+    checkToken
 }

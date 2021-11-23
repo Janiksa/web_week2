@@ -30,11 +30,12 @@ router.route('/')
         body("weight").isNumeric(),
         body("owner").not().isEmpty(),
         cat_post)
-    .put(cat_update);
+
 
 router.route('/:catId')
     .get(cat_get)
-    .delete(cat_delete);
+    .delete(cat_delete)
+    .put(cat_update);
 
 
 module.exports = router;
