@@ -14,9 +14,9 @@ const {getCat} = require('../models/catModel');
 const {cats} = require('../models/catModel');
 
 const cat_list_get = async (req, res, next) => {
-  const cats = await catModel.getAllCats();
+  const [cats] = await catModel.getAllCats();
   if (cats.length > 0) {
-    await res.json(cats);
+    await res.json({cats});
   } else {
     const err = httpError('Cats not found', 404);
     next(err);

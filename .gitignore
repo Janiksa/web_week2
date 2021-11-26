@@ -122,6 +122,10 @@ Temporary Items
 # ignore content of uploads folder
 uploads/*
 thumbnails/*
+certrequest.csr/*
+ssl-key.pem/*
+ssl-cert.pem/*
+
 # except one (empty) file to have the folder in version control
 !uploads/.gitkeep
 !thumbnails/.gitkeep
