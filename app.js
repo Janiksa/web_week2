@@ -1,14 +1,15 @@
 'use strict';
-
-
+const cors = require('cors')
 const express = require('express');
+const app = express();
+
+app.use(cors());
 require('dotenv').config()
 const catRoute = require("./routes/catRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const passport = require("./utils/pass.js");
+const bcrypt = require('bcryptjs');
 const authRoute = require("./routes/authRoute.js");
-const app = express();
-const cors = require('cors')
 const {httpError} = require("./utils/errors");
 const port = 3000;
 
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 require('./utils/localhost')(app, 8000, 3000);
 }
 
-app.use(cors());
+
 app.use(passport.initialize());
 
 app.use(express.static('uploads'));
@@ -32,9 +33,9 @@ app.use("/cat", passport.authenticate("jwt", {session: false}), catRoute);
 app.use("/user", passport.authenticate("jwt", {session: false}), userRoute);
 app.use('/auth', authRoute);
 
-app.get('/', (req, res) => {
+app.get('/',async (req, res) => {
     if (req.secure) {
-        res.send('Hello Secure World!');
+        res.send(await bcrypt.hash('1234', 10));
     } else {
         res.send('not secured?');
     }
