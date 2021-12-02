@@ -3,7 +3,6 @@ const cors = require('cors')
 const express = require('express');
 const app = express();
 
-app.use(cors());
 require('dotenv').config()
 const catRoute = require("./routes/catRoute.js");
 const userRoute = require("./routes/userRoute.js");
@@ -19,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
 require('./utils/localhost')(app, 8000, 3000);
 }
+app.use(cors());
 
 
 app.use(passport.initialize());

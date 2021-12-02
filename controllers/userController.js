@@ -21,18 +21,7 @@ const user_list_get = async (req, res) => {
     res.json(users);
 }
 
-const user_post = async (req, res, next) => {
-    const user = [req.body.name, req.body.email, req.body.passwd];
-    const add = await insertUser(user);
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        console.error("user_post validation", errors.array());
-        const err = httpError("data not valid", 400);
-        next(err);
-        return;
-    }
-    res.json(add);
-}
+
 
 const update_user = async (req, res, next) => {
 
@@ -70,7 +59,6 @@ const checkToken = (req, res, next) => {
 
 module.exports = {
     user_get,
-    user_post,
     user_list_get,
     delete_user,
     update_user,
